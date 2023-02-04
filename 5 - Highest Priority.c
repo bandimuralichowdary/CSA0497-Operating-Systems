@@ -1,64 +1,93 @@
 #include<stdio.h>
-
-struct priority_scheduling {
-  char process_name;
-  int burst_time;
-  int waiting_time;
-  int turn_around_time;
-  int priority;
-};
-
-int main() {
-  int number_of_process;
-  int total = 0;
-  struct priority_scheduling temp_process;
-  int ASCII_number = 65;
-  int position;
-  float average_waiting_time;
-  float average_turnaround_time;
-  printf("Enter the total number of Processes: ");
-  scanf("%d", & number_of_process);
-  struct priority_scheduling process[number_of_process];
-  printf("\nPlease Enter the  Burst Time and Priority of each process:\n");
-  for (int i = 0; i < number_of_process; i++) {
-    process[i].process_name = (char) ASCII_number;
-    printf("\nEnter the details of the process %c \n", process[i].process_name);
-    printf("Enter the burst time: ");
-    scanf("%d", & process[i].burst_time);
-    printf("Enter the priority: ");
-    scanf("%d", & process[i].priority);
-    ASCII_number++;
-  }
-  for (int i = 0; i < number_of_process; i++) {
-    position = i;
-    for (int j = i + 1; j < number_of_process; j++) {
-      if (process[j].priority > process[position].priority)
-        position = j;
+#include<conio.h>
+int main()
+ {
+   int x,n,p[10],pp[10],pt[10],w[10],t[10],awt,atat,i;
+   printf("Enter the number of process : ");
+   scanf("%d",&n);
+   printf("\n Enter process : time priorities \n");
+   for(i=0;i<n;i++)
+    {
+      printf("\nProcess no %d : ",i+1);
+      scanf("%d  %d",&pt[i],&pp[i]);
+      p[i]=i+1;
     }
-    temp_process = process[i];
-    process[i] = process[position];
-    process[position] = temp_process;
-  }
-  process[0].waiting_time = 0;
-  for (int i = 1; i < number_of_process; i++) {
-    process[i].waiting_time = 0;
-    for (int j = 0; j < i; j++) {
-      process[i].waiting_time += process[j].burst_time;
-    }          
-    total += process[i].waiting_time;
-  }
-  average_waiting_time = (float) total / (float) number_of_process;
-  total = 0;
-  printf("\n\nProcess_name \t Burst Time \t Waiting Time \t  Turnaround Time\n");
-  printf("------------------------------------------------------------\n");
-  for (int i = 0; i < number_of_process; i++) {
-    process[i].turn_around_time = process[i].burst_time + process[i].waiting_time;
-    total += process[i].turn_around_time;
-    printf("\t  %c \t\t  %d \t\t %d \t\t %d", process[i].process_name, process[i].burst_time, process[i].waiting_time, process[i].turn_around_time);
-    printf("\n-----------------------------------------------------------\n");
-  }
-  average_turnaround_time = (float) total / (float) number_of_process;
-  printf("\n\n Average Waiting Time : %f", average_waiting_time);
-  printf("\n Average Turnaround Time: %f\n", average_turnaround_time);
-  return 0;
+  for(i=0;i<n-1;i++)
+   {
+     for(int j=i+1;j<n;j++)
+     {
+       if(pp[i]<pp[j])
+       {
+         x=pp[i];
+         pp[i]=pp[j];
+         pp[j]=x;
+         x=pt[i];
+         pt[i]=pt[j];
+         pt[j]=x;
+         x=p[i];
+         p[i]=p[j];
+         p[j]=x;
+      }
+   }
 }
+w[i]=0;
+awt=0;
+t[0]=pt[0];
+atat=t[0];
+for(i=1;i<n;i++)
+ {
+   w[i]=t[i-1];
+   awt+=w[i];
+   t[i]=w[i]+pt[i];
+   atat+=t[i];
+ }
+printf("\n\n Job \t Burst Time \t Wait Time \t Turn Around Time   Priority \n");
+for(i=0;i<n;i++)
+  printf("\n %d \t\t %d  \t\t %d \t\t %d \t\t %d \n",p[i],pt[i],w[i],t[i],pp[i]);
+awt/=n;
+atat/=n;
+printf("\n Average Wait Time : %d \n",awt);
+printf("\n Average Turn Around Time : %d \n",atat);
+getch();
+}
+
+
+/*OUTPUT
+
+Enter the total number of Processes: 4
+
+Please Enter the  Burst Time and Priority of each process:
+
+Enter the details of the process A
+Enter the burst time: 6
+Enter the priority: 3
+
+Enter the details of the process B
+Enter the burst time: 8
+Enter the priority: 1
+
+Enter the details of the process C
+Enter the burst time: 9
+Enter the priority: 4
+
+Enter the details of the process D
+Enter the burst time: 3
+Enter the priority: 2
+
+
+Process_name     Burst Time      Waiting Time     Turnaround Time
+------------------------------------------------------------
+          C               9              0               9
+-----------------------------------------------------------
+          A               6              9               15
+-----------------------------------------------------------
+          D               3              15              18
+-----------------------------------------------------------
+          B               8              18              26
+-----------------------------------------------------------
+
+
+ Average Waiting Time : 10.500000
+ Average Turnaround Time: 17.000000
+
+--------------------------------
