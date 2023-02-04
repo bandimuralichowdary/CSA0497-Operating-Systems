@@ -13,15 +13,13 @@ int main()
     printf("Enter the number of the process\n");
     scanf("%d",&n);
     printf("Enter the arrival time , burst time and priority of the process\n");
-    printf("AT BT PT \n");
+    printf("AT BT PT\n");
     for(int i=0;i<n;i++)
     {
         scanf("%d%d%d",&a[i].AT,&a[i].BT,&a[i].PT);
-        
-        
         temp[i]=a[i].BT;
     }
-     a[9].PT=10000;
+    a[9].PT=10000;
     
     for(t=0;count!=n;t++)
     {
@@ -35,26 +33,23 @@ int main()
         }
         
         a[short_p].BT=a[short_p].BT-1;
-        
-      
         if(a[short_p].BT==0)
         {
-          
             count++;
             a[short_p].WT=t+1-a[short_p].AT-temp[short_p];
             a[short_p].TAT=t+1-a[short_p].AT;
-            
-            
             total_WT=total_WT+a[short_p].WT;
-            total_TAT=total_TAT+a[short_p].TAT;                  
+            total_TAT=total_TAT+a[short_p].TAT;
+            
         }
     }
+    
     Avg_WT=total_WT/n;
     Avg_TAT=total_TAT/n;
     printf("ID WT TAT\n");
     for(int i=0;i<n;i++)
     {
-        printf("%d %d\t %d\n",i+1,a[i].WT,a[i].TAT);
+        printf("%d %d\t%d\n",i+1,a[i].WT,a[i].TAT);
     }
     
     printf("Avg waiting time of the process  is %f\n",Avg_WT);
@@ -62,3 +57,21 @@ int main()
     
     return 0;
 }
+
+/*OUTPUT
+
+Enter the number of the process
+3
+Enter the arrival time , burst time and priority of the process
+AT BT PT
+1 10 3
+2 20 2
+3 25 6
+ID WT TAT
+1 20    30
+2 0     20
+3 28    53
+Avg waiting time of the process  is 16.000000
+Avg turn around time of the process is 34.333332
+
+--------------------------------
